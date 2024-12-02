@@ -38,3 +38,7 @@ export const login=async(req,res)=>{
    const token=generateToken(user.id)
    return res.status(200).json({success:true,message:"successfully",data:user,token})
 }
+
+const userRegister=async()=>{
+   const {email}=req.body
+}
