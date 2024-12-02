@@ -1,0 +1,35 @@
+import Department from "../../../model/departmentSchema/departmentSchema.js"
+
+export const addDepartment=async(req,res)=>{
+    const {dept_name,description}=req.body
+    const existingDept=await Department.findOne({dept_name})
+    console.log(existingDept);
+    
+    if(existingDept){
+        return res.status(400).json({success:false,message:"Department alredy exist"})
+    }
+    const newDept=await new Department({
+        dept_name,description
+    })
+    await newDept.save()
+    return res.status(200).json({success:true,message:"Successfully added department",data:newDept})
+}
+
+export const getDepartments=async(req,res)=>{
+    const datas=await  Department.find({})
+    if(datas.length===0){
+       return res.status(404).json({success:false,message:"Department Not Found"})
+    }
+    return res.status(200).json({success:true,message:"Successfully fetch departments",data:datas})
+}
+
+export const editDepartment=async(req,res)=>{
+    const id=req.params.id
+    const {dept_name,description}=req.body
+    const existingDept=await Department.find({id})
+    if(!existingDept){
+        return res.status(404).json({success:false,message:"Department not exist"})
+    }
+    const editDept=await Department.updateOne({dept_name,description})
+    return res.status(200).json({success:true,message:"edit successfully",data:editDept})
+}
