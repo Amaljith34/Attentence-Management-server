@@ -16,10 +16,12 @@ export const addDepartment=async(req,res)=>{
 }
 
 export const getDepartments=async(req,res)=>{
-    const datas=await  Department.find({})
+    const datas=await  Department.find()
+    
     if(datas.length===0){
        return res.status(404).json({success:false,message:"Department Not Found"})
     }
+    
     return res.status(200).json({success:true,message:"Successfully fetch departments",data:datas})
 }
 
@@ -32,4 +34,31 @@ export const editDepartment=async(req,res)=>{
     }
     const editDept=await Department.updateOne({dept_name,description})
     return res.status(200).json({success:true,message:"edit successfully",data:editDept})
+}
+// export const deleteDepartment=async(req,res)=>{
+//     const id=req.params.id
+//     console.log(id);
+    
+//     const existingDepartment=await Department.findById(id)
+//     console.log(existingDepartment);
+//     const deletedData=await Department.findByIdAndUpdate(
+//         id,{isDelete:!existingDepartment.isDelete},{new:true}
+//     )
+//     console.log(deletedData);
+//     res.status(200).json({success:true,message:"department deletesuccess",data:deletedData})
+    
+    
+// }
+
+export const deleteDepartment=async(req,res)=>{
+    const id=req.params.id
+    console.log(id);
+    
+    const existingDepartment=await Department.findById(id)
+    console.log(existingDepartment);
+    const deletedData=await Department.findByIdAndDelete(id )
+    console.log(deletedData);
+    res.status(200).json({success:true,message:"department deletesuccess",data:deletedData})
+    
+    
 }
