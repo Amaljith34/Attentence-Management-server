@@ -1,11 +1,13 @@
 import express from 'express'
-import { login, userRegister } from '../controller/authController/authController.js'
 import { trycatch } from '../middleware/tryCatch.js'    
+import { employeeRegister, login } from '../controller/authController/authController.js'
+import { leaveRequest } from '../controller/EmployeeController/Leave/leave.js'
 const router=express.Router()
 
 
-router.post('/registration',trycatch(userRegister))
+router.post('/registration',trycatch(employeeRegister))
 router.post('/login',trycatch(login))
+router.post('/employee/leave-request/:id',trycatch(leaveRequest))
 
 
 

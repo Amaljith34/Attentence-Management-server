@@ -16,13 +16,16 @@ export const addDepartment=async(req,res)=>{
 }
 
 export const getDepartments=async(req,res)=>{
-    const datas=await  Department.find()
+    const {page=1,limit=8}=req.query;
+    const skip=(page-1)* limit
+    const totalDepartment=await Department.countDocuments()
+    const datas=await  Department.find().skip(skip).limit(parseInt(limit))
     
     if(datas.length===0){
        return res.status(404).json({success:false,message:"Department Not Found"})
     }
     
-    return res.status(200).json({success:true,message:"Successfully fetch departments",data:datas})
+    return res.status(200).json({success:true,message:"Successfully fetch departments",data:datas,total:totalDepartment,page:parseInt(page),pages:Math.ceil(totalDepartment/limit)})
 }
 
 export const editDepartment=async(req,res)=>{
@@ -32,7 +35,7 @@ export const editDepartment=async(req,res)=>{
     if(!existingDept){
         return res.status(404).json({success:false,message:"Department not exist"})
     }
-    const editDept=await Department.updateOne({dept_name,description})
+    const editDept=await Department.findByIdAndUpdate({_id:id},{$set:{dept_name,description}})
     return res.status(200).json({success:true,message:"edit successfully",data:editDept})
 }
 // export const deleteDepartment=async(req,res)=>{
@@ -52,13 +55,18 @@ export const editDepartment=async(req,res)=>{
 
 export const deleteDepartment=async(req,res)=>{
     const id=req.params.id
-    console.log(id);
-    
-    const existingDepartment=await Department.findById(id)
-    console.log(existingDepartment);
     const deletedData=await Department.findByIdAndDelete(id )
-    console.log(deletedData);
+    if(!deletedData){
+        return res.status(404).json({success:false,message:"user not found"})
+    }
     res.status(200).json({success:true,message:"department deletesuccess",data:deletedData})
     
-    
+}
+
+export const getDepartment=async(req,res)=>{
+    const datas=await  Department.find()
+    if(datas.length===0){
+       return res.status(404).json({success:false,message:"Department Not Found"})
+    }
+    return res.status(200).json({success:true,message:"Successfully fetch departments",data:datas})
 }
