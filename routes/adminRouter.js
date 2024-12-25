@@ -5,11 +5,10 @@ import { addDepartment, deleteDepartment, editDepartment, getDepartment, getDepa
 import { addEmployee, blockEmployee, deleteEmployee, editEmployee, getEmployee, getEmployeeByid } from '../controller/adminController/Employee/employee.js';
 import { AddSalary, editSalary, getSalary } from '../controller/adminController/Salary/salary.js';
 import { totalDepartment, totalEmployee } from '../controller/adminController/Dashbord/dashBoard.js';
-import { handleRequest } from '../controller/adminController/Leave/leave.js';
-import { getLeaves } from '../controller/EmployeeController/Leave/leave.js';
+import { getLeaves, handleRequest } from '../controller/adminController/Leave/leave.js';
 
 const router=express.Router()
-// router.post('/admin/users',trycatch(getAllUsers))
+
 router.post('/admin/department',trycatch(addDepartment))
 router.get('/admin/department',trycatch(getDepartments))
 router.get('/admin/departments',trycatch(getDepartment))

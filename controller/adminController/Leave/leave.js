@@ -17,3 +17,22 @@ export const handleRequest=async(req,res)=>{
 
     }
 }
+
+export const getLeaves=async(req,res)=>{
+    const { page = 1, limit = 10 } = req.query;
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+    const totalLeaves = await Leave.countDocuments()
+    const leaves=await Leave.find()
+    .skip((pageNum - 1) * limitNum) 
+    .limit(limitNum);
+    if(!leaves || !leaves.length){
+        return res.status(404).json({success:false,message:"Leave no Found"})
+    }
+    return res.status(200).json({success:true,message:"Leaves fetch Success",data:leaves,pagination: {
+        total: totalLeaves,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(totalLeaves / limitNum)
+    }})
+}
