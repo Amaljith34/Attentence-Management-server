@@ -4,7 +4,7 @@ import { trycatch } from '../middleware/tryCatch.js';
 import { addDepartment, deleteDepartment, editDepartment, getDepartment, getDepartments } from '../controller/adminController/Department/department.js';
 import { addEmployee, blockEmployee, deleteEmployee, editEmployee, getEmployee, getEmployeeByid } from '../controller/adminController/Employee/employee.js';
 import { AddSalary, editSalary, getSalary } from '../controller/adminController/Salary/salary.js';
-import { totalDepartment, totalEmployee } from '../controller/adminController/Dashbord/dashBoard.js';
+import { leaveApproved, leavepending, leaveRejected, totalDepartment, totalEmployee, totalLeave } from '../controller/adminController/Dashbord/dashBoard.js';
 import { getLeaves, handleRequest } from '../controller/adminController/Leave/leave.js';
 
 const router=express.Router()
@@ -27,4 +27,8 @@ router.get('/admin/dashboard/employee',trycatch(totalEmployee))
 router.get('/admin/dashboard/department',trycatch(totalDepartment))
 router.patch('/admin/leave-request/:id',trycatch(handleRequest))
 router.get('/admin/leave-request',trycatch(getLeaves))
+router.get('/admin/leave-pending',trycatch(leavepending))
+router.get('/admin/leave-reject',trycatch(leaveRejected))
+router.get('/admin/leave-approved',trycatch(leaveApproved))
+router.get('/admin/leave-total',trycatch(totalLeave))
 export default router

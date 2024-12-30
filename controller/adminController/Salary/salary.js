@@ -12,10 +12,6 @@ export const getSalary = async (req, res) => {
 
        return res.status(200).json({ success: true, message: "Salary fetch success", data: existingUserSalaries });
 };
-
-
-
-
 export const AddSalary=async(req,res)=>{
    const{amound,employeeId,payDate}=req.body
    const existEmployee=await Employee.findById(employeeId)
