@@ -25,7 +25,7 @@ export const getLeaves=async(req,res)=>{
     const pageNum = parseInt(page, 10);
     const limitNum = parseInt(limit, 10);
     const totalLeaves = await Leave.countDocuments()
-    const leaves=await Leave.find()
+    const leaves=await Leave.find().skip((pageNum - 1) * limitNum).limit(limitNum);
     if(!leaves || !leaves.length){
         return res.status(404).json({success:false,message:"Leave no Found"})
     }

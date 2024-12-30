@@ -240,7 +240,6 @@ export const deleteEmployee = async (req, res) => {
 
 export const blockEmployee=async(req,res)=>{
   const id=req.params.id
-  // const existingEmployee=await Employee.findByIdAndUpdate(id,{$set:{isBlocked:!isBlocked}})
   const existingEmployee=await Employee.findById(id)
   if(!existingEmployee){
     return res.status(404).json({success:false,message:"employee not  exist"})
